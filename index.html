@@ -126,22 +126,7 @@
             overflow: hidden;
         }
 
-        .card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 153, 51, 0.1) 0%, transparent 70%);
-            transform: scale(0);
-            transition: transform 0.5s ease;
-        }
-
-        .card:hover::before {
-            transform: scale(1);
-        }
-
+       
         .card:hover {
             transform: translateY(-10px);
             border-color: #ff9933;
