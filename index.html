@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bioestadística - Xenia Padilla</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animación de calaveras flotantes */
+        .floating-skulls {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .skull {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.1;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .skull:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .skull:nth-child(2) { left: 30%; animation-delay: 3s; }
+        .skull:nth-child(3) { left: 50%; animation-delay: 6s; }
+        .skull:nth-child(4) { left: 70%; animation-delay: 9s; }
+        .skull:nth-child(5) { left: 90%; animation-delay: 12s; }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(-100px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(calc(100vh + 100px)) rotate(360deg);
+            }
+        }
+
+        /* Header */
+        header {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 3rem 2rem 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .header-decoration {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            color: #ff9933;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #ffd700;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .divider {
+            width: 200px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ff9933, transparent);
+            margin: 1rem auto;
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 153, 51, 0.3);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 153, 51, 0.1) 0%, transparent 70%);
+            transform: scale(0);
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover::before {
+            transform: scale(1);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: #ff9933;
+            box-shadow: 0 20px 40px rgba(255, 153, 51, 0.3);
+        }
+
+        .card-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .card h2 {
+            font-size: 1.8rem;
+            color: #ff9933;
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            color: #ddd;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: linear-gradient(135deg, #ff9933 0%, #ff6b35 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .btn:hover {
+            background: transparent;
+            border-color: #ff9933;
+            color: #ff9933;
+            transform: scale(1.05);
+        }
+
+        /* Info Section */
+        .info-section {
+            background: rgba(255, 153, 51, 0.1);
+            border: 2px solid rgba(255, 153, 51, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .info-section h3 {
+            color: #ffd700;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .info-section p {
+            line-height: 1.8;
+            color: #ddd;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Footer */
+        footer {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            margin-top: 3rem;
+        }
+
+        footer p {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .footer-decoration {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .header-decoration {
+                font-size: 2rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .card {
+                padding: 2rem;
+            }
+
+            .card-icon {
+                font-size: 3rem;
+            }
+
+            .card h2 {
+                font-size: 1.5rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+                margin: 2rem auto;
+            }
+
+            .info-section {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .btn {
+                padding: 0.6rem 1.5rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Decorative elements */
+        .papel-picado {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background: linear-gradient(90deg,
+                #ff9933 0%,
+                #ffd700 25%,
+                #ff6b35 50%,
+                #ffd700 75%,
+                #ff9933 100%);
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- Papel Picado decorativo -->
+    <div class="papel-picado"></div>
+
+    <!-- Calaveras flotantes de fondo -->
+    <div class="floating-skulls">
+        <div class="skull">💀</div>
+        <div class="skull">💀</div>
+        <div class="skull">💀</div>
+        <div class="skull">💀</div>
+        <div class="skull">💀</div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-decoration">🌺 💀 🌺</div>
+        <h1>Bioestadística</h1>
+        <p class="subtitle">Mapa conceptual de estadística</p>
+        <p>Xenia Padilla</p>
+        <div class="divider"></div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Info Section -->
+        <div class="info-section">
+            <h3>🕯️ Estadística 🕯️</h3>
+            <p>
+               Xeny 👩🏽‍⚕️ "...la desviación estándar me ha ayudado a identificar cuándo un paciente realmente está fuera de lo normal versus cuándo solo está en un extremo natural de la distribución."
+            </p>
+        </div>
+
+        <!-- Cards Grid -->
+        <div class="cards-grid">
+            <div class="card">
+                <span class="card-icon">📊</span>
+                <h2>Síntesis de estadística</h2>
+                <p>Temas relevantes vistos en las 3 sesiones de clase</p>
+                <a href="mapa_conceptual_xeniapadilla.html" class="btn">Revisar</a>
+            </div>
+
+            <div class="card">
+                <span class="card-icon">💡</span>
+                <h2>Mapa conceptual</h2>
+                <p>De manera precisa los conceptos más relevantes de la estadística, estadísitca descritiva e inferencial.</p>
+                <a href="mapa_conceptual_xeniapadilla_interactivo.html" class="btn">Ver</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-decoration">🌺 🕯️ 🌺</div>
+        <p>&copy; 2025 - Xenia Padilla | Bioestadística</p>
+        <p style="margin-top: 0.5rem; font-size: 0.8rem;">Docente: Dr. José Manuel Narváez Mastache </p>
+        <p style="margin-top: 0.5rem; font-size: 0.8rem;">Sistema Santander Live Streaming</p>
+        <p style="margin-top: 0.5rem; font-size: 0.8rem;">Maestría en nutrición clínica</p>
+    </footer>
+
+</body>
+</html>
